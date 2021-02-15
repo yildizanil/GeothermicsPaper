@@ -1,0 +1,60 @@
+customplot <- function(x,y,type="p",margin=c(2,2,0.25,0.25),
+                       loadfont=F,font="serif",fontsize=10,
+                       point=21,colour=8,drawgrid=T,xlimit=range(x),ylimit=range(y),xstep=x/10,ystep=y/10,
+                       drawbox=T,sqplot=F,drawaxis=T,draw1to1=F,x_axistext,y_axistext,x_axisline=1,y_axisline=1,
+                       drawErrorBar=F,errorx=x,errory=y,errory2=sd(y),arrowl=0.02){
+   if(loadfont==T)
+   {
+      require(extrafont)
+      loadfonts("win")   
+   }
+   if(sqplot==T)
+   {
+      par(mar=margin,ps=fontsize,family=font,mgp=c(0.1,0.1,0),las=1,cex=1,cex.main=1,pty="s")   
+   }else{
+      par(mar=margin,ps=fontsize,family=font,mgp=c(0.1,0.1,0),las=1,cex=1,cex.main=1,pty="m")
+   }
+   plot(0,0,xlab=NA,ylab=NA,axes=F,pch="",xlim=xlimit,ylim=ylimit)
+   if(drawgrid==T)
+   {
+      segments(x0=seq(xlimit[1],xlimit[2],xstep),y0=ylimit[1],x1=seq(xlimit[1],xlimit[2],xstep),y1=ylimit[2],col="gray87")
+      segments(x0=xlimit[1],y0=seq(ylimit[1],ylimit[2],ystep),x1=xlimit[2],y1=seq(ylimit[1],ylimit[2],ystep),col="gray87")
+   }
+   if(draw1to1==T)
+   {
+      segments(x0=xlimit[1],y0=ylimit[1],x1=xlimit[2],y1=ylimit[2],lwd=2,lty=2)
+   }
+   if(drawaxis==T)
+   {
+      axis(1,tck=0.02)
+      axis(2,tck=0.02)
+   }
+   if(drawbox==T)
+   {
+      box()
+   }
+   if(drawErrorBar==T)
+   {
+      arrows(x0=errorx,y0=errory,x1=errorx,y1=errory-errory2,angle=90,col=1,length=arrowl)
+      arrows(x0=errorx,y0=errory,x1=errorx,y1=errory+errory2,angle=90,col=1,length=arrowl)
+   }
+   if(type=="p")
+   {
+      if(point>20.5)
+      {
+         points(x,y,pch=point,bg=colour,col=1)   
+      }else{
+         points(x,y,pch=point,col=colour)
+      }
+   }
+   if(type=="l")
+   {
+      lines(x,y,col=colour,lwd=2)
+   }
+   par(las=0)
+   mtext(x_axistext,side=1,line=x_axisline)
+   mtext(y_axistext,side=2,line=y_axisline)
+}
+
+
+
